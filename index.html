@@ -3,338 +3,590 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Wish - Special wishes for you</title>
+    <title>🎂 Happy Birthday - Special Celebration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* ======== ALL CSS STYLES ======== */
+        :root {
+            --primary: #ff3080;
+            --secondary: #c44569;
+            --accent: #ffd700;
+            --accent2: #ff6b35;
+            --purple: #8e44ad;
+            --blue: #3498db;
+            --green: #2ecc71;
+            --white: #ffffff;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #a18cd1 100%);
             min-height: 100vh;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
         }
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            padding: 40px;
-            max-width: 500px;
+        /* BACKGROUND ANIMATION */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            animation: slideIn 0.5s ease;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-20px); }
+        .bg-animation .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: floatOrb 10s infinite linear;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 50px) scale(1.2); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 50px;
+            background: rgba(255,255,255,0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 30px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* PAGE SECTIONS */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 100px 5% 50px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h1 {
-            text-align: center;
-            color: #e91e63;
-            margin-bottom: 10px;
-            font-size: 2em;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #e91e63;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(45deg, #e91e63, #ff5722);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3);
-        }
-
-        .share-section {
-            display: none;
-            margin-top: 30px;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 10px;
-        }
-
-        .share-section.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        .share-link {
-            width: 100%;
-            padding: 10px;
-            background: white;
-            border: 2px solid #e91e63;
-            border-radius: 5px;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .copy-btn {
-            background: #4caf50;
-        }
-
-        /* Wish View Page Styles */
-        .wish-card {
+        /* HERO SECTION */
+        .hero {
+            min-height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
         }
 
-        .wish-card .cake {
-            font-size: 80px;
-            margin-bottom: 20px;
+        .hero h1 {
+            font-size: 90px;
+            font-weight: 900;
+            color: var(--white);
+            text-shadow: 4px 4px 0 var(--primary), 8px 8px 0 rgba(0,0,0,0.1);
             animation: bounce 1s infinite;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-20px); }
         }
 
-        .wish-card h2 {
-            color: #e91e63;
-            font-size: 2.5em;
+        .hero .subtitle {
+            font-size: 28px;
+            color: var(--white);
+            margin: 20px 0;
+        }
+
+        .hero-emoji {
+            font-size: 180px;
+            animation: float 3s ease-in-out infinite;
+            margin: 30px 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        /* BUTTONS */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 18px 45px;
+            font-size: 20px;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            box-shadow: 0 10px 40px rgba(255, 48, 128, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(255, 48, 128, 0.5);
+        }
+
+        .btn-white {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .btn-accent {
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            color: var(--dark);
+        }
+
+        /* FORMS */
+        .form-card {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .form-card h2 {
+            font-size: 40px;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .form-card .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .form-group input, 
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 18px;
+            border: 3px solid #eee;
+            border-radius: 15px;
+            transition: 0.3s;
+            background: var(--light);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 10px 30px rgba(255, 48, 128, 0.15);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* SHARE SECTION */
+        .share-section {
+            background: linear-gradient(135deg, #f0f0f0, #fff);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 30px;
+            display: none;
+            text-align: center;
+        }
+
+        .share-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .share-link {
+            width: 100%;
+            padding: 20px;
+            font-size: 16px;
+            border: 3px solid var(--primary);
+            border-radius: 15px;
+            margin: 20px 0;
+            background: var(--white);
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .social-btn.whatsapp { background: #25D366; color: white; }
+        .social-btn.facebook { background: #1877F2; color: white; }
+        .social-btn.twitter { background: #1DA1F2; color: white; }
+        .social-btn.telegram { background: #0088cc; color: white; }
+        .social-btn.copy { background: var(--primary); color: white; }
+
+        /* GIFTS SECTION */
+        .gifts-section {
+            padding: 50px 0;
+        }
+
+        .gifts-title {
+            font-size: 50px;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+        }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .gift-box {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .gift-box:hover {
+            transform: translateY(-15px) scale(1.05);
+        }
+
+        .gift-box .emoji {
+            font-size: 100px;
+            display: block;
+            animation: shake 2s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        .gift-box .label {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-top: 15px;
+        }
+
+        /* VIEW WISH PAGE */
+        .wish-view {
+            min-height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .wish-view .celebration-emoji {
+            font-size: 120px;
+            animation: bounce 1s infinite;
             margin-bottom: 20px;
         }
 
-        .wish-card .from {
-            color: #666;
+        .wish-view h1 {
+            font-size: 60px;
+            color: var(--white);
+            font-weight: 900;
+            text-shadow: 4px 4px 0 var(--primary);
+            margin-bottom: 20px;
+            animation: rainbow 3s infinite;
+        }
+
+        @keyframes rainbow {
+            0% { color: #ff3080; }
+            25% { color: #ffd700; }
+            50% { color: #2ecc71; }
+            75% { color: #3498db; }
+            100% { color: #ff3080; }
+        }
+
+        .wish-view .name {
+            font-size: 45px;
+            color: var(--white);
+            margin-bottom: 30px;
+        }
+
+        .wish-view .message-box {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 700px;
+            font-size: 24px;
+            line-height: 2;
+            color: var(--dark);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .wish-view .message-box::before {
+            content: '"';
+            font-size: 100px;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+            top: -20px;
+            left: 20px;
+        }
+
+        .wish-view .from {
+            color: rgba(255,255,255,0.9);
+            font-size: 22px;
             margin-top: 20px;
         }
 
-        .wish-card .message {
-            background: linear-gradient(135deg, #fff5f5, #fff0f0);
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px 0;
-            font-size: 1.2em;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .decorations {
+        /* BALLOONS */
+        .balloons {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            overflow: hidden;
             z-index: -1;
         }
 
         .balloon {
             position: absolute;
-            font-size: 40px;
-            animation: float 4s ease-in-out infinite;
+            font-size: 60px;
+            animation: rise 10s linear infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+        @keyframes rise {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-150px) rotate(15deg); opacity: 0.7; }
+        }
+
+        /* CONFETTI */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
         }
 
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: random;
-            animation: fall 3s linear infinite;
+            width: 12px;
+            height: 12px;
+            top: -20px;
+            animation: confettiFall 4s linear infinite;
         }
 
-        @keyframes fall {
-            to { transform: translateY(100vh) rotate(360deg); }
-        }
-    </style>
-</head>
-<body>
-    <div class="decorations" id="decorations"></div>
-    
-    <div class="container" id="mainContainer">
-        <!-- Content will be inserted via JavaScript -->
-    </div>
-
-    <script>
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const wishData = urlParams.get('w');
-
-        // Balloons and decorations
-        const balloons = ['🎈', '🎉', '🎊', '⭐', '🌟'];
-        const decorationsDiv = document.getElementById('decorations');
-        
-        for (let i = 0; i < 10; i++) {
-            const balloon = document.createElement('div');
-            balloon.className = 'balloon';
-            balloon.textContent = balloons[Math.floor(Math.random() * balloons.length)];
-            balloon.style.left = Math.random() * 100 + '%';
-            balloon.style.top = -50 + 'px';
-            balloon.style.animationDelay = Math.random() * 2 + 's';
-            balloon.style.fontSize = (30 + Math.random() * 30) + 'px';
-            decorationsDiv.appendChild(balloon);
+        @keyframes confettiFall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0.5; }
         }
 
-        if (wishData) {
-            // View Wish Page
-            try {
-                const data = JSON.parse(decodeURIComponent(atob(wishData)));
-                renderWishView(data);
-            } catch (e) {
-                renderCreateForm();
-            }
-        } else {
-            // Create Wish Page
-            renderCreateForm();
+        /* PHOTO GALLERY */
+        .gallery-section {
+            padding: 50px 0;
         }
 
-        function renderCreateForm() {
-            const container = document.getElementById('mainContainer');
-            container.innerHTML = `
-                <h1>🎂 Birthday Wish</h1>
-                <p class="subtitle">Apna special wish banaein aur share karein</p>
-                
-                <form id="wishForm">
-                    <div class="form-group">
-                        <label>Wish kiska hai? (To)</label>
-                        <input type="text" id="toName" placeholder="Jane ka naam likhein" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Kon bhej raha hai? (From)</label>
-                        <input type="text" id="fromName" placeholder="Aapka naam" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Birthday person ka favorite color</label>
-                        <select id="themeColor">
-                            <option value="#e91e63">Pink</option>
-                            <option value="#2196f3">Blue</option>
-                            <option value="#4caf50">Green</option>
-                            <option value="#ff9800">Orange</option>
-                            <option value="#9c27b0">Purple</option>
-                            <option value="#f44336">Red</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Your special message</label>
-                        <textarea id="message" placeholder="Happy Birthday! Write your wish here..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn">Create Wish 🎉</button>
-                </form>
-                
-                <div class="share-section" id="shareSection">
-                    <p><strong>Apna wish share karein!</strong></p>
-                    <input type="text" class="share-link" id="shareLink" readonly>
-                    <button type="button" class="btn copy-btn" onclick="copyLink()">📋 Copy Link</button>
-                </div>
-            `;
-
-            document.getElementById('wishForm').addEventListener('submit', createWish);
+        .gallery-title {
+            font-size: 50px;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 50px;
         }
 
-        function createWish(e) {
-            e.preventDefault();
-            
-            const data = {
-                to: document.getElementById('toName').value,
-                from: document.getElementById('fromName').value,
-                message: document.getElementById('message').value,
-                theme: document.getElementById('themeColor').value,
-                cake: ['🎂', '🎈', '🎁'][Math.floor(Math.random() * 3)]
-            };
-
-            const encoded = btoa(encodeURIComponent(JSON.stringify(data)));
-            const shareUrl = window.location.origin + window.location.pathname + '?w=' + encoded;
-
-            document.getElementById('shareSection').classList.add('show');
-            document.getElementById('shareLink').value = shareUrl;
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        function renderWishView(data) {
-            const container = document.getElementById('mainContainer');
-            container.innerHTML = `
-                <div class="wish-card">
-                    <div class="cake">${data.cake || '🎂'}</div>
-                    <h2>Happy Birthday, ${escapeHtml(data.to)}! 🎉</h2>
-                    <div class="message">${escapeHtml(data.message)}</div>
-                    <p class="from">— From: ${escapeHtml(data.from)}</p>
-                    <button class="btn" style="margin-top: 20px;" onclick="createNewWish()">Apna bhi wish banaein 🎈</button>
-                </div>
-            `;
-            
-            // Apply theme color
-            if (data.theme) {
-                document.querySelector('h2').style.color = data.theme;
-            }
+        .gallery-item {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        .gallery-item:hover {
+            transform: translateY(-10px) rotate(2deg);
         }
 
-        function copyLink() {
-            const linkInput = document.getElementById('shareLink');
-            linkInput.select();
-            document.execCommand('copy');
-            alert('Link copy ho gaya! Ab aap isse WhatsApp, Facebook ya kisi bhi platform par share kar sakte hain.');
+        .gallery-item .emoji {
+            font-size: 100px;
         }
 
-        function createNewWish() {
-            window.location.href = window.location.pathname;
+        .gallery-item .caption {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-top: 15px;
         }
-    </script>
-</body>
-</html>
+
+        /* QUOTES */
+        .quotes-section {
+            padding: 50px 0;
+        }
+
+        .quotes-title {
+            font-size: 50px;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .quotes-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quote {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 25px 0;
+            font-size: 22px;
+            line-height: 1.8;
+            color: var(--dark);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary);
+        }
+
+        .quote .author {
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 15px;
+            font-size: 18px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 50px; }
+            .hero-emoji { font-size: 120px; }
+            .form-card { padding: 30px 20px; }}
